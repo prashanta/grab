@@ -1,0 +1,20 @@
+.wFileUpload-file{
+	position: absolute;
+	z-index: 2;
+	opacity: 0;
+	width: 100%;
+	height: 50px;
+	left: 0px;
+	right: 0px;
+	
+}
+
+.wFileUpload-thumb{
+	width: 50%;
+	margin-left: 25%;
+}
+
+.recent-filename{
+	margin-right: 15px;
+	
+}
