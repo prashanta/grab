@@ -104,7 +104,7 @@ public class UserProfileDAO {
 	public static UserProfileBean getUserProfile(int userid){		
 		UserProfileBean user = null;
 		Connection c = null;
-		String sql = "SELECT user_name, current_folder, upload_immediately FROM users WHERE user_id = ?";
+		String sql = "SELECT user_name, current_folder, upload_immediately, printer FROM users WHERE user_id = ?";
 		try {
             c = ConnectionHelper.getConnection();            
             PreparedStatement statement = c.prepareStatement(sql);			
@@ -116,6 +116,7 @@ public class UserProfileDAO {
 				user.setUserid(userid);				
 				user.setCurrentFolder(rs.getInt("current_folder"));
 				user.setUploadImmediately(rs.getInt("upload_immediately"));
+				user.setPrinter(rs.getString("printer"));
 				user.setFolders(getFolders(user.getUserid()));
 			}		            			
         } catch (SQLException e) {

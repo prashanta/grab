@@ -8,7 +8,8 @@ define([
 			username:null,
 			currentFolder: -1,
 			folders: [],
-			uploadImmediately: 0
+			uploadImmediately: 0,
+			printer: null			
 		},
 		urlRoot: 'api/user'
 	});

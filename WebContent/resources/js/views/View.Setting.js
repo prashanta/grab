@@ -13,6 +13,8 @@ define([
         	inputFolderName: '.text-folder-name',
         	inputFolderPath: '.text-folder-path',
         	immediateUpload: '#immediate_upload',
+        	printerPanel: '#printer_panel',
+        	printerName: '#printer_name',
         	sizeOriginal: 'button[data=original]',        	
         	sizeSmall: 'button[data=small]',
         	btnChange: '#go_setting',
@@ -41,7 +43,16 @@ define([
         			$(this.sizeSmall[index]).addClass('active');
         		
         	}, this.ui);
-        	this.ui.immediateUpload.prop('checked', this.model.get("uploadImmediately")=="1");                	
+        	this.ui.immediateUpload.prop('checked', this.model.get("uploadImmediately")=="1");
+        	if(this.model.get("printer")){
+        		this.ui.printerPanel.show();
+        		this.ui.printerName.html(this.model.get("printer"));        		
+        	}
+        	else{
+        		this.ui.printerPanel.hide();
+        		this.ui.printerName.html("");        		
+        	}
+        		
         },
         
         sizeSelected: function(e){

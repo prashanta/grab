@@ -25,7 +25,7 @@ public class ConnectionHelper
 			instance = new ConnectionHelper();
 		}
 		try {
-			DriverManager.registerDriver(new com.progress.sql.jdbc.JdbcProgressDriver());
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			return DriverManager.getConnection(instance.url, "root", "");
 		} catch (SQLException e) {
 			throw e;

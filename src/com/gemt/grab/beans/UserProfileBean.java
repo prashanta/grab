@@ -10,6 +10,7 @@ public class UserProfileBean {
 	int userid = -1;
 	int currentFolder = 0;
 	int uploadImmediately = 0;
+	String printer = "";
 	ArrayList<FolderBean> folders;
 
 	public String getUsername() {
@@ -42,6 +43,14 @@ public class UserProfileBean {
 
 	public void setUploadImmediately(int uploadImmediately) {
 		this.uploadImmediately = uploadImmediately;
+	}
+	
+	public String getPrinter() {
+		return printer;
+	}
+
+	public void setPrinter(String printer) {
+		this.printer = printer;
 	}
 
 	public ArrayList<FolderBean> getFolders() {

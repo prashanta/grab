@@ -32,6 +32,7 @@ import com.gemt.grab.beans.FolderBean;
 import com.gemt.grab.beans.UserProfileBean;
 import com.gemt.grab.dao.UserProfileDAO;
 import com.gemt.grab.utility.Utility;
+import com.gemt.pdffactory.PDFDoc;
 
 @WebServlet("/Upload")
 public class Upload extends HttpServlet {
@@ -56,6 +57,7 @@ public class Upload extends HttpServlet {
 		String username = "";
 		String password = "";
 		String path = "";
+		String partName = "";
 		String filename = "";
 		String ext = "";
 		
@@ -85,7 +87,7 @@ public class Upload extends HttpServlet {
                 FileItem item = (FileItem) iter.next();
                 if(item.isFormField()){
                 	if(item.getFieldName().equals("filename")){
-                		filename = item.getString();                		
+                		partName = item.getString();                		
                 	}                	
                 }                	
                 else if (!item.isFormField()) {
@@ -98,18 +100,21 @@ public class Upload extends HttpServlet {
             	// Prepare to save image to remote folder            	
             	DateFormat dateFormat = new SimpleDateFormat("yyMMdd_HHmmss");
                 Date date = new Date();
-                filename = filename +  "_" +dateFormat.format(date) + ext;
+                String dateString = dateFormat.format(date);
+                filename = partName +  "_" + dateString + ext;
                 
                 int uid = Integer.valueOf(Utility.getCookie("uid", request));
                 UserProfileBean profile = UserProfileDAO.getUserProfile(uid);
                 username = profile.getUsername();
                 password = UserProfileDAO.getPassword(uid);
                 int folderIndex = profile.getCurrentFolder();
-                FolderBean folder = UserProfileDAO.getCurrentFolder(uid, folderIndex);
+                FolderBean folder = UserProfileDAO.getCurrentFolder(uid, folderIndex);                
                 path = folder.getPath(); 
                 String finalPath = path.replaceAll("\\\\", "/");
         		finalPath = "smb:" + (finalPath.indexOf("//")  == -1? ("//" + finalPath) : finalPath);
         		finalPath = finalPath.lastIndexOf("/") == finalPath.length()-1? finalPath : finalPath + "/";
+        		
+        		BufferedImage resizedImage = null;  
         		
         		if(folder.getImageResize() == 1){
         			Image img = ImageIO.read(input);
@@ -119,7 +124,7 @@ public class Upload extends HttpServlet {
             		w = (w * 80) / 100;
             		h = (h * 80) / 100;
             		
-            		BufferedImage resizedImage = resizeImage(img, w, h);            		
+            		resizedImage = resizeImage(img, w, h);            		
             		ByteArrayOutputStream baos = new ByteArrayOutputStream();
             		ImageIO.write(resizedImage, "jpg", baos);        		            		
             		input = new ByteArrayInputStream(baos.toByteArray());
@@ -128,7 +133,26 @@ public class Upload extends HttpServlet {
 					out.println("1");
 				else
 					out.println("0");
-					
+				
+				// Check if print required
+				if(profile.getPrinter() != null){
+					if(folder.getName().contains("print")){
+						System.out.println("Printing ... " + partName);
+						PDFDoc doc = new PDFDoc("sample.pdf");
+						doc.createNewPage();
+						doc.openPage(1);
+						doc.writeText(36, 40, "OPERATION STEP :", 12);
+						doc.writeText(36, 60, "REVISION :", 12);
+						doc.writeText(36, 80, "PART NUMBER : " + partName, 12);
+						dateFormat = new SimpleDateFormat("dd-MMM-yy HH:mm:ss");
+						doc.writeText(36, 100, "DATE : " + dateFormat.format(date), 12);
+						doc.writeImageCenter(10, 120, resizedImage);			
+						doc.closePage();						
+						doc.printFile(profile.getPrinter(), partName);
+						System.out.println("Printing complete");
+						doc.close();
+					}
+				}					
             }
 		}catch(Exception ex) {
 			ex.printStackTrace();
