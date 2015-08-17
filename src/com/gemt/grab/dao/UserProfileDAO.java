@@ -32,7 +32,7 @@ public class UserProfileDAO {
 			else{
 				System.out.println("Creating new user");
 				sql = "INSERT INTO users (user_name, password, current_folder, upload_immediately) VALUES(?, ?, -1, 0)";
-				statement = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				statement = c.prepareStatement(sql, statement.RETURN_GENERATED_KEYS);
 				statement.setString(1, username);
 				statement.setString(2, password);
 				statement.executeUpdate();
