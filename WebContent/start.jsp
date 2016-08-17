@@ -14,8 +14,10 @@
 <body>
 	<%
 		// Check of session has already been started
-		String uid = Utility.getCookie("uid", request);
-		if (!uid.isEmpty()){					
+		// UNDO String uid = Utility.getCookie("uid", request);
+	
+		// UNDO if (!uid.isEmpty()){		
+			
 		//if ((session.getAttribute("uname") != null) && (session.getAttribute("uname") != "")) {
 	%>
 	<div id="loadingDiv">
@@ -36,9 +38,9 @@
 	
 	<script data-main="resources/js/main" src="resources/libs/require-2.1.15.js"></script>
 	<%		
-		}
-		else
-			response.sendRedirect("index.jsp");
+	// UNDO }
+	// UNDO else
+			// UNDO response.sendRedirect("index.jsp");
 	%>
 </body>
 </html>

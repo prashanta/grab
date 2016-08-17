@@ -1,6 +1,8 @@
 package com.gemt.grab.ws;
 
 
+import java.sql.SQLException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -26,7 +28,7 @@ public class UserProfile {
 	@PUT @Path("{username}")
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public ResponseBean update(UserProfileBean user) {
+	public ResponseBean update(UserProfileBean user) throws SQLException {
 		/*ObjectMapper mapper = new ObjectMapper();
 		try {
 			System.out.println(mapper.writeValueAsString(user));

@@ -110,6 +110,10 @@ public class Upload extends HttpServlet {
                 int folderIndex = profile.getCurrentFolder();
                 FolderBean folder = UserProfileDAO.getCurrentFolder(uid, folderIndex);                
                 path = folder.getPath(); 
+                
+                // Check if it is a remote path or local path
+                
+                // START If remote path
                 String finalPath = path.replaceAll("\\\\", "/");
         		finalPath = "smb:" + (finalPath.indexOf("//")  == -1? ("//" + finalPath) : finalPath);
         		finalPath = finalPath.lastIndexOf("/") == finalPath.length()-1? finalPath : finalPath + "/";
@@ -133,6 +137,12 @@ public class Upload extends HttpServlet {
 					out.println("1");
 				else
 					out.println("0");
+				
+				// END If remote path
+				
+				// START If local path
+				
+				// END If local path
 				
 				// Check if print required
 				if(profile.getPrinter() != null){

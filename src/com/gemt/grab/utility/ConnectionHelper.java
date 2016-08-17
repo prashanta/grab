@@ -26,7 +26,7 @@ public class ConnectionHelper
 		}
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			return DriverManager.getConnection(instance.url, "root", "");
+			return DriverManager.getConnection(instance.url, "xpd", "xpd*2016");
 		} catch (SQLException e) {
 			throw e;
 		}
